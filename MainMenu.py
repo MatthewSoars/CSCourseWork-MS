@@ -1,6 +1,5 @@
 # Imports the libraries needed for the screen to work
 import pygame
-from pygame.locals import *
 
 ScreenHeight = 1366  # Sets the screens height
 ScreenWidth = 768  # Sets the screens width
@@ -38,10 +37,10 @@ while running:
             running = False  # Set running bool to false
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if ScreenWidth/2 <= mousePosition[0] <= ScreenWidth and ScreenHeight/2 <= mousePosition[1]:
+            if ScreenWidth / 2 <= mousePosition[0] <= ScreenWidth and ScreenHeight / 2 <= mousePosition[1]:
                 pygame.quit()
 
-    # This next section of code relates to the start buttons detection of the mouse when hovered over
+    # This next section of code relates to the play button detection of the mouse when hovered over
     if 550 <= mousePosition[0] <= 550 + 280:
         if 350 <= mousePosition[1] <= 350 + 80:
             pygame.draw.rect(MM, (170, 170, 170), [550, 350, 280, 80])
@@ -51,6 +50,27 @@ while running:
     else:
         pygame.draw.rect(MM, (100, 100, 100), [550, 350, 280, 80])
 
+    # This next section of code relates to the shop menu button detection of the mouse when hovered over
+    if 550 <= mousePosition[0] <= 550 + 280:
+        if 450 <= mousePosition[1] <= 450 + 80:
+            pygame.draw.rect(MM, (170, 170, 170), [550, 450, 280, 80])
+
+        else:
+            pygame.draw.rect(MM, (100, 100, 100), [550, 450, 280, 80])
+    else:
+        pygame.draw.rect(MM, (100, 100, 100), [550, 450, 280, 80])
+
+    # This next section of code relates to the stats menu button detection of the mouse when hovered over
+    if 550 <= mousePosition[0] <= 550 + 280:
+        if 550 <= mousePosition[1] <= 550 + 80:
+            pygame.draw.rect(MM, (170, 170, 170), [550, 550, 280, 80])
+
+        else:
+            pygame.draw.rect(MM, (100, 100, 100), [550, 550, 280, 80])
+    else:
+        pygame.draw.rect(MM, (100, 100, 100), [550, 550, 280, 80])
+
     MM.blit(startGameButton, (650, 360))  # Super imposes the Start text on the start game button
+    MM.blit()
 
     pygame.display.update()  # Updates the screen
