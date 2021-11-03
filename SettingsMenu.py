@@ -11,19 +11,31 @@ MM = pygame.display.set_mode((ScreenHeight, ScreenWidth))  # Displaying a window
 backGroundImage = pygame.image.load("Sprites/Background5.jpg").convert()  # Loading the background game sprite
 backGroundPosition = 0  # Setting the backgrounds original position
 
+current_master_volume = 100
+current_music_volume = 100
 
 class VolumeSlider:  # Creates the class used for the volume slider button
-    def __init__(self, position_x, position_y):  # The simple base conditions for the visible section
+    def __init__(self, position_x, position_y, type, current_master_volume, current_music_volume):  # The simple base conditions
         self.PositionX = position_x
         self.PositionY = position_y
+        self.Width = 100
+        self.Height = 100
+        self.Type = type
+        self.Current = current_master_volume
+        self.CurrentMusicVolume = current_music_volume
 
-    def sound_up(self, controling, current_music_volume, current_master_volume):
-        if controling:
-            current_music_volume = current_music_volume + 1
+    @property
+    def spawn(self):
+        if self.Type == "Music":
+            if self.CurrentMusicVolume <= 100:
+                return pygame.draw.rect(MM, (100, 100, 100), [550, 270, 80, 280]), pygame.draw.rect(MM, (100, 100, 100), [550, 270, 280, 80])
 
-    def sound_down(self):
-        soundDown = True
+        else:
+            return pygame.draw.rect(MM, (100, 100, 100), [550, 570, 280, 80])
 
+
+MusicSlider = VolumeSlider(100, 100, "Music", current_master_volume, current_music_volume)
+MasterSlider = VolumeSlider(100, 100, "Master", current_master_volume, current_music_volume)
 
 running = True  # Sets the running boolean to true
 # Game loop while the program is running
@@ -40,5 +52,8 @@ while running:
 
         if event.type == pygame.QUIT:  # If event is quit
             running = False  # Set running bool to false
+
+    MusicSlider.spawn
+    MasterSlider.spawn
 
     pygame.display.update()  # Updates the screen
