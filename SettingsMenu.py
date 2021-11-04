@@ -5,6 +5,9 @@ from VolumeSliderClass import VolumeSlider
 ScreenHeight = 1366  # Sets the screens height
 ScreenWidth = 768  # Sets the screens width
 
+current_music_volume = 0
+current_master_volume = 0
+
 # Setting up the pygame window
 pygame.init()  # initializing the imported module
 MM = pygame.display.set_mode((ScreenHeight, ScreenWidth))  # Displaying a window of set parameters
@@ -33,14 +36,19 @@ while running:
         if event.type == pygame.QUIT:  # If event is quit
             running = False  # Set running bool to false
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            MusicSlider.button_press_checker(current_music_volume, current_master_volume)
+            MasterSlider.button_press_checker(current_music_volume, current_master_volume)
+
+
     MM.blit(textsurface, (375, -10))  # Displays stats screen title
 
-    MusicSlider = VolumeSlider(100, 200, "Music", MM, mousePosition[0], mousePosition[1])
-    MasterSlider = VolumeSlider(100, 400, "Master", MM, mousePosition[0], mousePosition[1])
+    MusicSlider = VolumeSlider(200, "Music", MM, mousePosition[0], mousePosition[1])
+    MasterSlider = VolumeSlider(400, "Master", MM, mousePosition[0], mousePosition[1])
 
-    MusicSlider.spawn()
-    MusicSlider.mechanics()
-    MasterSlider.spawn()
-    MasterSlider.mechanics()
+    MusicSlider.spawn(current_music_volume, current_master_volume)
+    MusicSlider.hover()
+    MasterSlider.spawn(current_music_volume, current_master_volume)
+    MasterSlider.hover()
 
     pygame.display.update()  # Updates the screen
