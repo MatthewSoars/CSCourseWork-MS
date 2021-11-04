@@ -11,35 +11,87 @@ MM = pygame.display.set_mode((ScreenHeight, ScreenWidth))  # Displaying a window
 backGroundImage = pygame.image.load("Sprites/Background5.jpg").convert()  # Loading the background game sprite
 backGroundPosition = 0  # Setting the backgrounds original position
 
-current_master_volume = 100
-current_music_volume = 100
+# This section of the code creates fonts that can be used later
+titleFont = pygame.font.SysFont('Comic Sans MS', 150)  # Sets the font and the size of font to be used for the title
+textsurface = titleFont.render('Settings', False, (0, 0, 0))  # Sets the parameters for the title to be called later
+
 
 class VolumeSlider:  # Creates the class used for the volume slider button
-    def __init__(self, position_x, position_y, type, current_master_volume, current_music_volume):  # The simple base conditions
+    def __init__(self, position_x, position_y, type):  # The simple base conditions
         self.PositionX = position_x
         self.PositionY = position_y
         self.Width = 100
         self.Height = 100
         self.Type = type
-        self.Current = current_master_volume
-        self.CurrentMusicVolume = current_music_volume
+        self.CurrentMasterVolume = 100
+        self.CurrentMusicVolume = 100
 
     @property
     def spawn(self):
-        if self.Type == "Music":
-            if self.CurrentMusicVolume <= 100:
-                return pygame.draw.rect(MM, (100, 100, 100), [550, 270, 80, 280]), pygame.draw.rect(MM, (100, 100, 100), [550, 270, 280, 80])
+        if self.CurrentMusicVolume >= 100 or self.CurrentMasterVolume >= 100:
+            pygame.draw.rect(MM, (100, 100, 100), [900, self.PositionY, 50, 160])
+            pygame.draw.rect(MM, (100, 100, 100), [800, self.PositionY + 20, 50, 140])
+            pygame.draw.rect(MM, (100, 100, 100), [700, self.PositionY + 40, 50, 120])
+            pygame.draw.rect(MM, (100, 100, 100), [600, self.PositionY + 60, 50, 100])
+            pygame.draw.rect(MM, (100, 100, 100), [500, self.PositionY + 80, 50, 80])
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
 
+        elif self.CurrentMusicVolume >= 80 or self.CurrentMasterVolume >= 80:
+            pygame.draw.rect(MM, (100, 100, 100), [800, self.PositionY + 20, 50, 140])
+            pygame.draw.rect(MM, (100, 100, 100), [700, self.PositionY + 40, 50, 120])
+            pygame.draw.rect(MM, (100, 100, 100), [600, self.PositionY + 60, 50, 100])
+            pygame.draw.rect(MM, (100, 100, 100), [500, self.PositionY + 80, 50, 80])
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
+
+        elif self.CurrentMusicVolume >= 80 or self.CurrentMasterVolume >= 80:
+            pygame.draw.rect(MM, (100, 100, 100), [700, self.PositionY + 40, 50, 120])
+            pygame.draw.rect(MM, (100, 100, 100), [600, self.PositionY + 60, 50, 100])
+            pygame.draw.rect(MM, (100, 100, 100), [500, self.PositionY + 80, 50, 80])
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
+
+        elif self.CurrentMusicVolume >= 80 or self.CurrentMasterVolume >= 80:
+            pygame.draw.rect(MM, (100, 100, 100), [600, self.PositionY + 60, 50, 100])
+            pygame.draw.rect(MM, (100, 100, 100), [500, self.PositionY + 80, 50, 80])
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
+
+        elif self.CurrentMusicVolume >= 80 or self.CurrentMasterVolume >= 80:
+            pygame.draw.rect(MM, (100, 100, 100), [500, self.PositionY + 80, 50, 80])
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
+
+        elif self.CurrentMusicVolume >= 80 or self.CurrentMasterVolume >= 80:
+            pygame.draw.rect(MM, (100, 100, 100), [400, self.PositionY + 100, 50, 60])
+
+    def mechanics(self):
+        if 1050 <= mousePosition[0] <= 1050 + 250:  # Detects if mouse position x is within set bounds
+            if self.PositionY + 20 <= mousePosition[1] <= self.PositionY + 160:  # Detects if mouse position y is within set bounds
+                pygame.draw.rect(MM, (80, 80, 80),
+                                 [1050, self.PositionY + 10, 250, 140])  # Draws a lighter rectangle when hovered over
+
+            else:
+                pygame.draw.rect(MM, (0, 0, 0),
+                                 [1050, self.PositionY + 10, 250, 140])  # Draws a darker rectangle when not hovered over
         else:
-            return pygame.draw.rect(MM, (100, 100, 100), [550, 570, 280, 80])
+            pygame.draw.rect(MM, (0, 0, 0), [1050, self.PositionY + 10, 250, 140])  # Draws a darker rectangle when not hovered over
+
+        if 50 <= mousePosition[0] <= 50 + 250:  # Detects if mouse position x is within set bounds
+            if self.PositionY + 20 <= mousePosition[1] <= self.PositionY + 160:  # Detects if mouse position y is within set bounds
+                pygame.draw.rect(MM, (80, 80, 80),
+                                 [50, self.PositionY + 10, 250, 140])  # Draws a lighter rectangle when hovered over
+
+            else:
+                pygame.draw.rect(MM, (0, 0, 0),
+                                 [50, self.PositionY + 10, 250, 140])  # Draws a darker rectangle when not hovered over
+        else:
+            pygame.draw.rect(MM, (0, 0, 0), [50, self.PositionY + 10, 250, 140])  # Draws a darker rectangle when not hovered over
 
 
-MusicSlider = VolumeSlider(100, 100, "Music", current_master_volume, current_music_volume)
-MasterSlider = VolumeSlider(100, 100, "Master", current_master_volume, current_music_volume)
+MusicSlider = VolumeSlider(100, 200, "Music")
+MasterSlider = VolumeSlider(100, 400, "Master")
 
 running = True  # Sets the running boolean to true
 # Game loop while the program is running
 while running:
+    mousePosition = pygame.mouse.get_pos()  # Gets the current position of the mouse and stores it
 
     # This section of code uses two backgrounds to create an infinite effect
     relativeBackGroundPosition = backGroundPosition % backGroundImage.get_rect().width  # Uses mod to move background
@@ -53,7 +105,10 @@ while running:
         if event.type == pygame.QUIT:  # If event is quit
             running = False  # Set running bool to false
 
+    MM.blit(textsurface, (375, -10))  # Displays stats screen title
     MusicSlider.spawn
+    MusicSlider.mechanics()
     MasterSlider.spawn
+    MasterSlider.mechanics()
 
     pygame.display.update()  # Updates the screen
