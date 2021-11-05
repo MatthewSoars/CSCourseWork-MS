@@ -19,10 +19,15 @@ backGroundPosition = 0  # Setting the backgrounds original position
 titleFont = pygame.font.SysFont('Comic Sans MS', 150)  # Sets the font and the size of font to be used for the title
 textsurface = titleFont.render('Settings', False, (0, 0, 0))  # Sets the parameters for the title to be called later
 
+MusicSlider = VolumeSlider(200, "Music", MM, music_volume, master_volume)
+MasterSlider = VolumeSlider(400, "Master", MM, music_volume, master_volume)
+
 running = True  # Sets the running boolean to true
 # Game loop while the program is running
 while running:
-    mousePosition = pygame.mouse.get_pos()  # Gets the current position of the mouse and stores it
+    mouse_position = pygame.mouse.get_pos()  # Gets the current position of the mouse and stores it
+    mouse_position_x = mouse_position[0]
+    mouse_position_y = mouse_position[1]
 
     # This section of code uses two backgrounds to create an infinite effect
     relativeBackGroundPosition = backGroundPosition % backGroundImage.get_rect().width  # Uses mod to move background
@@ -33,13 +38,10 @@ while running:
 
     MM.blit(textsurface, (375, -10))  # Displays stats screen title
 
-    MusicSlider = VolumeSlider(200, "Music", MM, mousePosition[0], mousePosition[1])
-    MasterSlider = VolumeSlider(400, "Master", MM, mousePosition[0], mousePosition[1])
-
-    MusicSlider.spawn(music_volume, master_volume)
-    MusicSlider.hover()
-    MasterSlider.spawn(music_volume, master_volume)
-    MasterSlider.hover()
+    MusicSlider.hover(mouse_position_x, mouse_position_y)
+    MusicSlider.refresh(music_volume, master_volume)
+    MasterSlider.hover(mouse_position_x, mouse_position_y)
+    MasterSlider.refresh(music_volume, master_volume)
 
     for event in pygame.event.get():  # Checks to see if any event in queue
 
@@ -47,7 +49,7 @@ while running:
             running = False  # Set running bool to false
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            music_volume = MusicSlider.button_press_checker(music_volume)
-            master_volume = MasterSlider.button_press_checker(master_volume)
+            music_volume = MusicSlider.button_press_checker(music_volume, mouse_position_x, mouse_position_y)
+            master_volume = MasterSlider.button_press_checker(master_volume, mouse_position_x, mouse_position_y)
 
     pygame.display.update()  # Updates the screen
