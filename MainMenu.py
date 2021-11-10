@@ -1,13 +1,14 @@
 # Imports the libraries needed for the screen to work
 import pygame
 from ButtonClass import Button
+from Background import parallax_effect
 
-ScreenHeight = 1366  # Sets the screens height
-ScreenWidth = 768  # Sets the screens width
+screen_height = 1366  # Sets the screens height
+screen_width = 768  # Sets the screens width
 
 # Setting up the pygame window
 pygame.init()  # initializing the imported module
-MM = pygame.display.set_mode((ScreenHeight, ScreenWidth))  # Displaying a window of set parameters
+MM = pygame.display.set_mode((screen_height, screen_width))  # Displaying a window of set parameters
 
 # This section of the code creates fonts that can be used later
 titleFont = pygame.font.SysFont('Comic Sans MS', 200)  # Sets the font and the size of font to be used for the title
@@ -18,8 +19,8 @@ statsGameButton = buttonFont.render('Stats', True, (0, 0, 0))  # Sets parameters
 shopGameButton = buttonFont.render('Shop', True, (0, 0, 0))  # Sets parameters for the shop button to be called later
 settingsGameButton = buttonFont.render('Settings', True, (0, 0, 0))  # Sets parameters for setting button for later
 
-backGroundImage = pygame.image.load("Sprites/Background5.jpg").convert()  # Loading the background game sprite
-backGroundPosition = 0  # Setting the backgrounds original position
+back_ground_image = pygame.image.load("Sprites/Background5.jpg").convert()  # Loading the background game sprite
+back_ground_position = 0  # Setting the backgrounds original position
 
 start_button = Button(550, 270, 280, 80, "Start", MM)
 shop_button = Button(550, 370, 280, 80, "Shop", MM)
@@ -32,12 +33,7 @@ while running:
 
     mouse_position = pygame.mouse.get_pos()  # Gets the current position of the mouse and stores it
 
-    # This section of code uses two backgrounds to create an infinite effect
-    relativeBackGroundPosition = backGroundPosition % backGroundImage.get_rect().width  # Uses mod to move background
-    MM.blit(backGroundImage, (relativeBackGroundPosition - backGroundImage.get_rect().width, 0))  # Blits the background
-    if relativeBackGroundPosition < ScreenHeight:  # When relativeBackGroundPosition is more then ScreenHeight
-        MM.blit(backGroundImage, (relativeBackGroundPosition, 0))  # Blits the second background image to the screen
-    backGroundPosition -= 2  # Makes the background shift to the left
+    parallax_effect(MM, back_ground_position, back_ground_image, screen_height)
 
     MM.blit(textsurface, (450, 20))  # Displays the title of the game to the screen
 
