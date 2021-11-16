@@ -29,9 +29,9 @@ class Button:
         buttonFont = pygame.font.SysFont('Comic Sans MS', 35)  # Sets the font and the size of font
         ButtonType = buttonFont.render(self.Text, True, (0, 0, 0))  # Sets parameters for the button to be used later
         self.ScreenToAddTo.blit(ButtonType, (self.PosX + (self.Length / 2) - (TextLength * 9),
-                                             self.PosY + (self.Height / 4))) # Super imposes the text on the button
+                                             self.PosY + (self.Height / 4)))  # Super imposes the text on the button
 
     def button_press_checker(self, mouse_position):
         if self.PosX <= mouse_position[0] <= self.PosX + self.Length:  # Detects mouse x is within set bounds
             if self.PosY <= mouse_position[1] <= self.PosY + self.Height:  # Detects mouse x is within set bounds
-                print(self.Text)  # This is where the code calling the game to play goes
+                return "Stats"  # This is where the type selected is returned
