@@ -16,4 +16,4 @@ class LogicBackground:
             screen.blit(self.back_ground_image,
                              (relativeBackGroundPosition, 0))  # Blits the second background image to the screen
 
-        self.back_ground_position -= 2  # Makes the background shift to the left
+        self.back_ground_position -= 3  # Makes the background shift to the left
