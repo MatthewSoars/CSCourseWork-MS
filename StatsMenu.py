@@ -1,10 +1,12 @@
-import pygame
-from ButtonClass import Button
+# Imports the libraries needed for the screen to work
+import pygame  # Imports the pygame library
+from ButtonClass import Button  # Imports the button class
 
 
+# Code for the class of the stats menu
 class LogicStatsMenu:
-    def __init__(self, screen):
-        self.Screen = screen
+    def __init__(self, screen):  # Function called when class is instantiated
+        self.Screen = screen  # Gets the screen that is needed to be added to
 
         titleFont = pygame.font.SysFont('Comic Sans MS', 200)  # Sets the font and the size of font
         buttonFont = pygame.font.SysFont('Comic Sans MS', 35)  # Sets the font and the size of font
@@ -13,23 +15,22 @@ class LogicStatsMenu:
         self.DistanceText = statsFont.render('Distance Ran = Xm', True, (0, 0, 0))  # Sets parameters for the text
         self.coinsText = statsFont.render('Coins Collected = X', True, (0, 0, 0))  # Sets parameters for the text
         self.exitGameButton = buttonFont.render('Exit', True, (0, 0, 0))  # Sets parameters for the exit text
+        self.exit_button = Button(550, 570, 280, 80, "Exit", self.Screen) # Sets parameters for the exit button
 
-        self.exit_button = Button(550, 570, 280, 80, "Exit", self.Screen)
-
-    def refresh(self, mouse_position):
+    def refresh(self, mouse_position):    # Function to refresh the main menu
         self.Screen.blit(self.textsurface, (150, 20))  # Displays stats screen title
 
-        self.exit_button.refresh(mouse_position)
+        self.exit_button.refresh(mouse_position)  # Updates the exit button
 
         # This next section relates to the super imposing of text onto the screen
         self.Screen.blit(self.DistanceText, (350, 240))  # Adds the distance text to the screen
         self.Screen.blit(self.coinsText, (350, 385))  # Adds the coins text to the screen
 
-    def game_state_changer(self, mouse_position):
-        if self.exit_button.button_press_checker(mouse_position):
-            game_state = "MainMenu"
-            return game_state
+    def game_state_changer(self, mouse_position):  # Function to change the game state
+        if self.exit_button.button_press_checker(mouse_position):  # If exit button is pressed
+            game_state = "MainMenu"  # Sets the game state to 'MainMenu'
+            return game_state  # Returns the game_state
 
         else:
-            game_state = "StatsMenu"
-            return game_state
+            game_state = "StatsMenu"  # Sets the game state to 'StatsMenu'
+            return game_state  # Returns the game_state
