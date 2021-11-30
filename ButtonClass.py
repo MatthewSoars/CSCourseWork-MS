@@ -38,4 +38,4 @@ class Button:
     def button_press_checker(self, mouse_position):
         if self.PosX <= mouse_position[0] <= self.PosX + self.Length:  # Detects mouse x is within set bounds
             if self.PosY <= mouse_position[1] <= self.PosY + self.Height:  # Detects mouse x is within set bounds
-                return "Stats"  # This is where the type selected is returned
+                return True  # This is where the type selected is returned
