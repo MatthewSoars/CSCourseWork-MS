@@ -10,13 +10,9 @@ class LogicMainMenu:
 
         # This section of the code creates fonts that can be used later
         titleFont = pygame.font.SysFont('Comic Sans MS', 200)  # Sets the font and the size of font
-        buttonFont = pygame.font.SysFont('Comic Sans MS', 35)  # Sets the font and the size of font
         self.textsurface = titleFont.render('Birdy', False, (0, 0, 0))  # Sets the parameters for the title
-        self.startGameButton = buttonFont.render('Start', True, (0, 0, 0))  # Sets parameters for the start button
-        self.statsGameButton = buttonFont.render('Stats', True, (0, 0, 0))  # Sets parameters for the stats button
-        self.shopGameButton = buttonFont.render('Shop', True, (0, 0, 0))  # Sets parameters for the shop button
-        self.settingsGameButton = buttonFont.render('Settings', True, (0, 0, 0))  # Sets parameters for setting
 
+        # This section of the code instantiates the buttons
         self.start_button = Button(550, 270, 280, 80, "Start", self.Screen)  # Instantiates the start button
         self.shop_button = Button(550, 370, 280, 80, "Shop", self.Screen)   # Instantiates the shop button
         self.stats_button = Button(550, 470, 280, 80, "Stats", self.Screen)  # Instantiates the stats button

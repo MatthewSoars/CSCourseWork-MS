@@ -8,14 +8,15 @@ class LogicStatsMenu:
     def __init__(self, screen):  # Function called when class is instantiated
         self.Screen = screen  # Gets the screen that is needed to be added to
 
+        # This section of the code creates fonts that can be used later
         titleFont = pygame.font.SysFont('Comic Sans MS', 200)  # Sets the font and the size of font
-        buttonFont = pygame.font.SysFont('Comic Sans MS', 35)  # Sets the font and the size of font
         statsFont = pygame.font.SysFont('Comic Sans MS', 90)  # Sets the font and the size of font
         self.textsurface = titleFont.render('Stats Menu', False, (0, 0, 0))  # Sets the parameters for the title
         self.DistanceText = statsFont.render('Distance Ran = Xm', True, (0, 0, 0))  # Sets parameters for the text
         self.coinsText = statsFont.render('Coins Collected = X', True, (0, 0, 0))  # Sets parameters for the text
-        self.exitGameButton = buttonFont.render('Exit', True, (0, 0, 0))  # Sets parameters for the exit text
-        self.exit_button = Button(550, 570, 280, 80, "Exit", self.Screen) # Sets parameters for the exit button
+
+        # This section of the code instantiates the buttons
+        self.exit_button = Button(550, 570, 280, 80, "Exit", self.Screen)  # Sets parameters for the exit button
 
     def refresh(self, mouse_position):    # Function to refresh the main menu
         self.Screen.blit(self.textsurface, (150, 20))  # Displays stats screen title

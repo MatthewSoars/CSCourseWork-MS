@@ -16,6 +16,7 @@ class LogicSettingsMenu:
         titleFont = pygame.font.SysFont('Comic Sans MS', 150)  # Sets the font and the size of font for the title
         self.textsurface = titleFont.render('Settings', False, (0, 0, 0))  # Sets the parameters for the title text
 
+        # This section of the code instantiates the buttons / Sliders
         self.MusicSlider = VolumeSlider(200, "Music", screen)  # Instantiates the Music Slider
         self.MasterSlider = VolumeSlider(400, "Master", screen)  # Instantiates the Master Slider
         self.exit_button = Button(550, 590, 280, 80, "Exit", screen)  # Instantiates the Exit Button
