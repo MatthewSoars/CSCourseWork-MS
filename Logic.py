@@ -9,12 +9,12 @@ class LogicBackground:
 
     def refresh(self, screen, screen_height):
         # This section of code uses two backgrounds to create an infinite effect (Uses MOD to move the background)
-        relativeBackGroundPosition = self.back_ground_position % self.back_ground_image.get_rect().width  # Uses MOD
+        relative_back_ground_position = self.back_ground_position % self.back_ground_image.get_rect().width  # Uses MOD
         screen.blit(self.back_ground_image, (
-            relativeBackGroundPosition - self.back_ground_image.get_rect().width, 0))  # Blits the background
+            relative_back_ground_position - self.back_ground_image.get_rect().width, 0))  # Adds the background
 
-        if relativeBackGroundPosition < screen_height:  # When relativeBackGroundPosition is more then ScreenHeight
+        if relative_back_ground_position < screen_height:  # When relativeBackGroundPosition is more than ScreenHeight
             screen.blit(self.back_ground_image,
-                        (relativeBackGroundPosition, 0))  # Blits the second background image to the screen
+                        (relative_back_ground_position, 0))  # Adds the second background image to the screen
 
         self.back_ground_position -= 3  # Makes the background shift to the left

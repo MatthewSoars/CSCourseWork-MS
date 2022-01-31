@@ -12,7 +12,7 @@ class LogicStatsMenu:
         titleFont = pygame.font.SysFont('Comic Sans MS', 200)  # Sets the font and the size of font
         statsFont = pygame.font.SysFont('Comic Sans MS', 90)  # Sets the font and the size of font
         self.textsurface = titleFont.render('Stats Menu', False, (0, 0, 0))  # Sets the parameters for the title
-        self.DistanceText = statsFont.render('Distance Ran = Xm', True, (0, 0, 0))  # Sets parameters for the text
+        self.DistanceText = statsFont.render('Distance Flown = X', True, (0, 0, 0))  # Sets parameters for the text
         self.coinsText = statsFont.render('Coins Collected = X', True, (0, 0, 0))  # Sets parameters for the text
 
         # This section of the code instantiates the buttons
