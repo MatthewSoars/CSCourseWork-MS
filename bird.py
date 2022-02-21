@@ -1,3 +1,4 @@
+# Importing the modules needed for this class to run
 import pygame
 
 
