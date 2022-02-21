@@ -26,7 +26,7 @@ class BirdClass:
 
     def AutoFly(self):  # Auto fly method to be used within the menu
         if self.ScreenPosY >= 400:  # If the spite fulls below a certain threshold in the Y axis
-            self.Acceleration = -25  # Sprite counteracts the full by using accelration
+            self.Acceleration = -25  # Sprite counteracts the fall by using accelration
 
     def ShopScreen(self):  # Method used within the shop screen menu
         self.ScreenToAddTo.blit(self.Image, (575, 300))  # Sets the position used
