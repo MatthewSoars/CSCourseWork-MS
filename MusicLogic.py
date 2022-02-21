@@ -11,4 +11,4 @@ class LogicMusic:
 
     @staticmethod
     def volume_change(new_volume):  # Method to change the volume of the music
-        pygame.mixer.music.set_volume(new_volume) # decimal
+        pygame.mixer.music.set_volume(new_volume) # Changes volume from 0 - 1
