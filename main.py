@@ -67,7 +67,7 @@ while running:
 
     # Next section handles the sprite states
     if game_state != "ShopMenu":  # If the game state is anything but the Shop Menu
-        PlayerSprite.Update()  # Call the standard sprite refresh method
+        PlayerSprite.Update(game_state)  # Call the standard sprite refresh method
 
     elif game_state == "ShopMenu":  # If the game state is "Shop Menu"
         PlayerSprite.ShopScreen()  # Call a variation of the sprite refresh for the shop screen
