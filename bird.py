@@ -43,7 +43,7 @@ class BirdClass:
         self.ScreenToAddTo.blit(self.Sprite, (575, 300))  # Sets the position used in the menu
 
     def Fly(self):  # Method that is assigned to a key press which accelerates the sprite up
-        self.Acceleration = -25  # Sprite counteracts the full by using acceleration
+        self.Acceleration = -25  # Sprite counteracts the fall by using acceleration
 
     def SkinChanger(self, direction_of_change):  # Skin changer method
         self.Current_Skin += direction_of_change
