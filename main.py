@@ -5,6 +5,7 @@ from MainMenu import LogicMainMenu  # Imports the class needed for the MainMenu
 from StatsMenu import LogicStatsMenu  # Imports the class needed for the StatsMenu
 from SettingsMenu import LogicSettingsMenu  # Imports the class needed for the SettingsMenu
 from ShopMenu import LogicShopMenu  # Imports the class needed for ShopMenu
+from GameMenu import LogicGameMenu  # Imports the class needed for GameMenu
 from bird import BirdClass  # Imports the bird character class
 
 ScreenHeight = 1366  # Sets the screens height
@@ -23,7 +24,7 @@ MainMenuLogic = LogicMainMenu(screen)  # Instantiates the Main menu class
 StatsMenuLogic = LogicStatsMenu(screen)  # Instantiates the Stats' menu class
 SettingsMenuLogic = LogicSettingsMenu(screen)  # Instantiates the Settings menu class
 ShopMenuLogic = LogicShopMenu(screen)  # Instantiates the Shop menu class
-
+GameMenuLogic = LogicGameMenu(screen)
 
 # This section of the code instantiates the bird
 PlayerSprite = BirdClass(screen)
@@ -50,20 +51,28 @@ while running:
     elif game_state == "ShopMenu":  # If game state is SettingsMenu
         var = running == ShopMenuLogic.refresh(mouse_position)  # Refreshes the Settings menu class
 
+    elif game_state == "GameMenu":  # If game state is GameMenu
+        var = running == GameMenuLogic.refresh()
+
     for event in pygame.event.get():  # Detects if a pygame event has been triggered
         if event.type == pygame.QUIT:  # If event is quit
             running = False  # Set running bool to false
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and game_state == "GameMenu":
+                PlayerSprite.Fly()  # Call a variation of the sprite refresh for the shop screen
+
         # Next section is used to check if the game state is needed to be changed
         if event.type == pygame.MOUSEBUTTONDOWN:  # Detects if the mouse button has been pressed
             if game_state == "MainMenu":  # If the game state is MainMenu
-                game_state = MainMenuLogic.game_state_change(mouse_position)  # Checks if the game state needs changed
+                game_state = MainMenuLogic.game_state_change(mouse_position)  # Checks if the game state needs changing
             elif game_state == "StatsMenu":  # If the game state is StatsMenu
-                game_state = StatsMenuLogic.game_state_changer(mouse_position)  # Checks if the game state needs changed
+                game_state = StatsMenuLogic.game_state_changer(
+                    mouse_position)  # Checks if the game state needs changing
             elif game_state == "SettingsMenu":  # If the game state is SettingsMenu
-                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changed
+                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
             elif game_state == "ShopMenu":  # If the game state is SettingsMenu
-                game_state = ShopMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changed
+                game_state = ShopMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
 
     # Next section handles the sprite states
     if game_state != "ShopMenu":  # If the game state is anything but the Shop Menu
