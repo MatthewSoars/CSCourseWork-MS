@@ -1,5 +1,6 @@
 import pygame
 from ButtonClass import Button
+import shelve
 
 
 class GameOverScreenLogic:
@@ -28,7 +29,7 @@ class GameOverScreenLogic:
         self.death_msg_text = death_msg_font.render(self.DeathMSG, False, (0, 0, 0))  # Sets the parameters for the death msg text
 
     # Method called to update the game over screen
-    def update(self, score):
+    def update(self, score, distance_traveled):
         self.Score = "Score = " + str(score)  # Sets the score with the text
         score_text = self.score_font.render(self.Score, False, (0, 0, 0))  # Sets the parameters for the score msg text
 
@@ -43,7 +44,17 @@ class GameOverScreenLogic:
         self.ScreenToAddTo.blit(score_text, (350, 340))  # Displays the game over text to the screen
 
         self.PlayAgainButton.refresh(mouse_position)  # Instantiates a play again button
-        self.ExitButton.refresh(mouse_position)  # Instantiates a exit button
+        self.ExitButton.refresh(mouse_position)  # Instantiates an exit button
+
+        # Section of the code which relates to the handling of the updating of high score txt document
+        txt_doc = shelve.open('scores.txt')  # Opens the score txt
+        high_score = txt_doc['score']  # Score is read from the disk
+        distance = txt_doc['distance']  # Distance is read from the disk
+        if high_score < score:  # If previous score is more than high score
+            txt_doc['score'] = score  # New high score is saved to disk
+        distance += distance_traveled
+        txt_doc['distance'] = distance  # New distance is saved to disk
+        txt_doc.close()  # Closes the txt file
 
     def game_state_change(self, mouse_position):  # Method to change the game state
         game_state = 'GameMenu'  # Sets the game state

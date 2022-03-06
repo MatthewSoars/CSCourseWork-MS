@@ -34,7 +34,11 @@ class LogicGameMenu:
         self.crash_sound = pygame.mixer.Sound("Sounds/SoundEffects/hit.mp3")  # Sets the crash sound to the need audio
         self.point_sound = pygame.mixer.Sound("Sounds/SoundEffects/point.mp3")  # Sets the point sound to the need audio
 
+        self.Distance_Traveled = 0
+
     def refresh(self, game_state, player_sprite, mob_sprites):  # refresh method which is called to refresh the screen
+        self.Distance_Traveled += 1
+
         if self.GameLive:  # If the game is live
             if self.Gap >= self.RandomGap:  # If the Gap currently created is more than or equal to random gap size
                 LogicGameMenu.Tube_Spawn(self)  # Spawns the tube to the screen
@@ -66,7 +70,7 @@ class LogicGameMenu:
                 self.game_over_screen_init = True  # Set game over screen initialised to True
 
             elif self.game_over_screen_init:  # If game over screen initialised is True
-                self.GameOverScreen.update(self.CurrentScore)  # Calls the GameOverScreen update method
+                self.GameOverScreen.update(self.CurrentScore, self.Distance_Traveled)  # Calls the GameOverScreen update method
 
     def Tube_Spawn(self):  # Method to spawn the tube
         tube_gap_position = random.randint(-200, 200)  # Random gap position
