@@ -31,7 +31,7 @@ class Button:
         button_font = pygame.font.SysFont('Comic Sans MS', 35)  # Sets the font and the size of font
         button_type = button_font.render(self.Text, True, (0, 0, 0))  # Sets parameters for the button to be used later
         self.ScreenToAddTo.blit(button_type, (self.PosX + (self.Length / 2) - (text_length * 9),
-                                             self.PosY + (self.Height / 4)))  # Superimposes the text on the button
+                                              self.PosY + (self.Height / 4)))  # Superimposes the text on the button
 
     def button_press_checker(self, mouse_position):  # Method called to check if the button has been changed
         if self.PosX <= mouse_position[0] <= self.PosX + self.Length:  # Detects mouse x is within set bounds

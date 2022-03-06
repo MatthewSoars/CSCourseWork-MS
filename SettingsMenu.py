@@ -35,7 +35,6 @@ class LogicSettingsMenu:
         self.exit_button.refresh(mouse_position)  # Updates the exit button
         
         self.music_controller.volume_change(self.music_volume)
-        print(self.music_volume)
 
     def game_state_changer(self, mouse_position):  # Function to change the game state
         # Changes the music volume

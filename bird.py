@@ -1,52 +1,74 @@
+# Importing the required libraries for the code to work
 import pygame
 
 
 # Code for the class of the bird sprite
-class BirdClass:
+class BirdClass(pygame.sprite.Sprite):
     def __init__(self, screen):  # Method called when class is instantiated
+        pygame.sprite.Sprite.__init__(self)  # Inherits the parent Sprite class
         self.ScreenToAddTo = screen  # Gets the screen that is needed to be added to
-        self.Jump_Height = 2  # Sets the jump height of the bird
-        self.Current_Skin = 1  # Sets the starting skin of the bird
+        self.Jump_Height = 15  # Sets the jump height of the bird
         self.ScreenPosX = 150  # Sets the stating X position
         self.ScreenPosY = 0  # Sets the starting Y position
-        self.Gravity = -2  # Sets the gravity that the bird abides by
-        self.Sprite = pygame.image.load("Sprites/BirdSprite/StandardBird/frame-1.png").convert()  # Sets Image of sprite
-        self.Sprite.set_colorkey((18, 255, 0))  # Sets the background colour to be taken out
-        self.Sprite = pygame.transform.scale(self.Sprite, (200, 150))  # Scales the image to the size needed
+        self.Gravity = -1  # Sets the gravity that the bird abides
+
+        self.Sprites = []  # Creates a list of sprites for animation
+        self.Current_Animation_State = 0  # Sets the current animation state
+        self.AnimationTimer = 10  # Animation timer set gap between the images
+
+        self.fly_sound = pygame.mixer.Sound("Sounds/SoundEffects/fly.mp3")  # Sets the fly sound
+
+        for i in range(4):  # Runs four times the amount of bird images
+            filename = 'Sprites/BirdSprite/StandardBird/frame-{}.png'.format(i)  # Sets the current sprite file
+            img = pygame.image.load(filename).convert()  # Converts the filename
+            img.set_colorkey((18, 255, 0))  # Removes the background
+            img_scale = pygame.transform.scale(img, (75, 75))  # Scales the large explosion
+            self.Sprites.append(img_scale)  # Apply transformation
+
         self.FlyCoolDown = 60  # Sets the time needed between presses of the fly button
         self.Acceleration = 0  # Sets the starting acceleration
 
-        self.hit_box = self.Sprite.get_rect()  # Defines the rectangular hit box of a sprite
-        self.radius = int(self.hit_box.width * 1.20)  # Defines the circle hit box for the sprite
-        self.hit_box.x = self.ScreenPosX + 25  # Sets the x position of the hit box
-        self.hit_box.y = self.ScreenPosY + 20  # Sets the y position of the hit box
-        # pygame.draw.circle(self.Sprite, (255, 0, 0), self.hit_box.center, self.radius)
+        self.rect = self.Sprites[0].get_rect()  # Defines the rectangular hit box of a sprite
+        self.radius = int(self.rect.width * 1.40)  # Defines the circle hit box for the sprite
+        self.rect.x = self.ScreenPosX  # Sets the x position of the hit box
+        self.rect.y = self.ScreenPosY  # Sets the y position of the hit box
+        # pygame.draw.circle(self.Sprite, (255, 0, 0), self.rect.center, self.radius)
 
-    def Update(self, game_state):  # Method called to update the bird sprite
+    def update(self, game_live):  # Method called to update the bird sprite
+        self.AnimationTimer -= 1  # Animation timer is reduced by 1
 
         if self.Acceleration < 10:  # If Acceleration is less than 10
             self.Acceleration += 1  # Acceleration incremented by 1
 
         self.ScreenPosY += self.Acceleration  # Calculates the effect the acceleration has
-        self.hit_box.y += self.Acceleration  # Moves the hit box with the sprite
+        self.rect.y += self.Acceleration  # Moves the hit box with the sprite
 
         angle = self.Acceleration * -3  # Calculates the angle for sprite based on acceleration
-        rotated_sprite = pygame.transform.rotate(self.Sprite, angle)  # Sets the amount to rotate the sprite
+        rotated_sprite = pygame.transform.rotate(self.Sprites[self.Current_Animation_State], angle)  # Sets the amount to rotate the sprite
 
         self.ScreenToAddTo.blit(rotated_sprite, (self.ScreenPosX, self.ScreenPosY))  # Blitz the changes to the screen
+
+        if self.Current_Animation_State != 0 and self.AnimationTimer < 0:  # If the animation state does not equal zero and timer run down
+            self.Current_Animation_State -= 1  # Decreases the current animation state by 1
+
+        if not game_live:  # If game is not live
+            self.kill()  # Kills the sprite
 
     def AutoFly(self):  # Auto fly method to be used within the menu
         if self.ScreenPosY >= 360:  # If the spite fulls below a certain threshold in the Y axis
             self.Acceleration = -20  # Sprite counteracts the full by using acceleration
+            self.Current_Animation_State = 3  # Sets the animation state
+            self.AnimationTimer = 5  # Sets the animation timer
+            pygame.mixer.Sound.play(self.fly_sound)  # Plays the fly sound
 
     def ShopScreen(self):  # Method used within the shop screen menu
-        self.ScreenToAddTo.blit(self.Sprite, (575, 300))  # Sets the position used in the menu
+        self.ScreenToAddTo.blit(self.Sprites[self.Current_Animation_State], (575, 300))  # Sets the position used in the menu
 
     def Fly(self):  # Method that is assigned to a key press which accelerates the sprite up
-        self.Acceleration = -25  # Sprite counteracts the full by using acceleration
+        self.Acceleration = - self.Jump_Height  # Sprite counteracts the full by using acceleration
+        self.Current_Animation_State = 3  # Sets the animation state
+        self.AnimationTimer = 5  # sets the animation timer
+        pygame.mixer.Sound.play(self.fly_sound)  # Plays the fly sound
 
-    def SkinChanger(self, direction_of_change):  # Skin changer method
-        self.Current_Skin += direction_of_change
-        if self.Current_Skin >= 0:
-            self.Current_Skin = 1
-
+    def KillSprite(self):  # Method that kills the sprite
+        self.kill()  # Kills the sprite

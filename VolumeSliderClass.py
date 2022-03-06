@@ -3,11 +3,11 @@ import pygame  # Imports the pygame library
 
 
 class VolumeSlider:  # Creates the class used for the volume slider button
-    def __init__(self, position_y, type, screen):  # The simple base conditions
+    def __init__(self, position_y, object_type, screen):  # The simple base conditions
         self.PositionY = position_y  # Sets the y pos to instantiate the class at
         self.Width = 100  # Sets the width of the object
         self.Height = 100  # Sets the height of the object
-        self.Type = type  # Sets the type of object (Music Volume or Master Volume)
+        self.Type = object_type  # Sets the type of object (Music Volume or Master Volume)
         self.ScreenToAddTo = screen  # Sets the screen the object is needed to be put into
 
     def hover(self, mouse_position):

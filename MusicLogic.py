@@ -1,6 +1,7 @@
 # Imports the libraries needed for the screen to work
 import pygame  # Imports the pygame library
 
+
 # Code for the class of the music logic
 class LogicMusic:
     def __init__(self):  # Function when class is instantiated
@@ -11,4 +12,4 @@ class LogicMusic:
 
     @staticmethod
     def volume_change(new_volume):  # Method to change the volume of the music
-        pygame.mixer.music.set_volume(new_volume) # Changes volume from 0 - 1
+        pygame.mixer.music.set_volume(new_volume)  # Changes volume from 0 to 1
