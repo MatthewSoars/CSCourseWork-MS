@@ -60,13 +60,15 @@ while running:
 
     elif game_state == "StatsMenu":  # If game state is StatsMenu
         var = running == StatsMenuLogic.refresh(mouse_position)  # Refreshes the Stats' menu class
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "SettingsMenu":  # If game state is SettingsMenu
         var = running == SettingsMenuLogic.refresh(mouse_position)  # Refreshes the Settings menu class
-        PlayerSprite.KillSprite()
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "ShopMenu":  # If game state is SettingsMenu
         var = running == ShopMenuLogic.refresh(mouse_position)  # Refreshes the Settings menu class
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "GameMenu":  # If game state is GameMenu
         var = running == GameMenuLogic.refresh(game_state, PlayerSprite, mob_sprites)  # Refreshes the Game Menu class
@@ -86,12 +88,16 @@ while running:
             elif game_state == "StatsMenu":  # If the game state is StatsMenu
                 game_state = StatsMenuLogic.game_state_changer(
                     mouse_position)  # Checks if the game state needs changing
-            elif game_state == "SettingsMenu":  # If the game state is SettingsMenu
-                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
-                if game_state != "SettingsMenu":  # If game state is SettingsMenu
+                if game_state != "StatsMenu":  # If game state is Stats Menu
                     restart = True  # Sets restart to true to restart all the sprites
-            elif game_state == "ShopMenu":  # If the game state is SettingsMenu
+            elif game_state == "SettingsMenu":  # If the game state is Settings Menu
+                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
+                if game_state != "SettingsMenu":  # If game state is Settings Menu
+                    restart = True  # Sets restart to true to restart all the sprites
+            elif game_state == "ShopMenu":  # If the game state is Shop Menu
                 game_state = ShopMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
+                if game_state != "ShopMenu":  # If game state is Shop Menu
+                    restart = True  # Sets restart to true to restart all the sprites
             elif game_state == "GameMenu":  # If the game state is game menu
                 game_state, restart = GameMenuLogic.game_state_change(mouse_position)  # Checks if game state needs changing
 
@@ -101,7 +107,7 @@ while running:
         all_sprites.add(PlayerSprite)  # Adds the new player sprite to the screen
         restart = False  # Sets restart to false
 
-    elif game_state == "ShopMenu":  # If the game state is "Shop Menu"
+    if game_state == "ShopMenu":  # If the game state is "Shop Menu"
         PlayerSprite.ShopScreen()  # Call a variation of the sprite refresh for the shop screen
 
     game_live = GameMenuLogic.GameLiveChecker()  # Checks to see if the game is live

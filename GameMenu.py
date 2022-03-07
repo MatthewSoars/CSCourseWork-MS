@@ -96,8 +96,8 @@ class LogicGameMenu:
 
     def game_state_change(self, mouse_position):  # Method to change the game state
         game_state, restart = self.GameOverScreen.game_state_change(mouse_position)  # Sets the game state and restart based on the method
-        self.GameLive = True  # Sets game live to True
-        self.CurrentScore = 0
+        self.GameLive = True  # Sets game live to true
+        self.CurrentScore = 0  # Sets the current score to
         return game_state, restart  # Returns the two variables to the main game loop
 
     def GameLiveChecker(self):  # Method to check game live
