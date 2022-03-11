@@ -10,11 +10,13 @@ from gameoverscreen import GameOverScreenLogic  # Importing the game over screen
 # Code for the class of the bird sprite
 class LogicGameMenu:
     def __init__(self, screen, all_sprite_group, mob_group,
-                 tube_hit_box_group):  # Method called when class is instantiated
+                 tube_hit_box_group, bullet_group, wall_group):  # Method called when class is instantiated
         self.ScreenToAddTo = screen  # Sets the screen to add sprites to
         self.SpriteGroup = all_sprite_group  # Sets the sprite group within the class
         self.MobGroup = mob_group  # Sets the sprite group within the class
         self.TubeHitBoxGroup = tube_hit_box_group  # Sets the sprite group within the class
+        self.BulletGroup = bullet_group
+        self.WallGroup = wall_group
 
         self.RandomGap = 100  # sets the initial gap size
         self.Gap = 0  # Sets another initial value for gap size
@@ -31,7 +33,7 @@ class LogicGameMenu:
         self.GameOverScreen = 0  # Creates the game over screen class variable
         self.game_over_screen_init = False  # Sets the game over screen to false
 
-        self.crash_sound = pygame.mixer.Sound("Sounds/SoundEffects/hit.mp3")  # Sets the crash sound to the need audio
+        self.crash_sound = pygame.mixer.Sound("Sounds/SoundEffects/hit.mp3")   # Sets the crash sound to the need audio
         self.point_sound = pygame.mixer.Sound("Sounds/SoundEffects/point.mp3")  # Sets the point sound to the need audio
 
         self.Distance_Traveled = 0
@@ -52,7 +54,9 @@ class LogicGameMenu:
                 hit_tube = pygame.sprite.spritecollide(player_sprite, mob_sprites, False)  # If Player and Mob collide
                 hit_hit_box = pygame.sprite.spritecollide(player_sprite, self.TubeHitBoxGroup, True)  # If player and Tube hit box collide
                 hit_floor = pygame.sprite.spritecollide(player_sprite, self.FloorHitBoxGroup, False)  # If player and floor hit box collide
-                if hit_tube:  # If hit tube is True
+                hit_bullet_wall = pygame.sprite.groupcollide(self.BulletGroup, self.WallGroup, True, True)  # If Player and Mob collide
+                hit_sprite_wall = pygame.sprite.spritecollide(player_sprite, self.WallGroup, False)
+                if hit_tube or hit_sprite_wall:  # If hit tube is True
                     self.GameLive = False  # Set game live to False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
 
