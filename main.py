@@ -27,9 +27,9 @@ all_sprites = pygame.sprite.Group()  # Creates an all sprites group
 mob_sprites = pygame.sprite.Group()  # Creates a mob sprite group
 tube_hit_boxes = pygame.sprite.Group()  # Creates a tub_hit_box group
 bullets_group = pygame.sprite.Group()  # Creates a tub_hit_box group
-dragon_group = pygame.sprite.Group()
-player_group = pygame.sprite.Group()
-wall_group = pygame.sprite.Group()
+dragon_group = pygame.sprite.Group()  # Creates a dragon group
+player_group = pygame.sprite.Group()  # Creates a player group
+wall_group = pygame.sprite.Group()  # Creates a wall group
 
 # Instantiates the screens for different states of the game
 BackgroundLogic = LogicBackground()  # Instantiates the background class
@@ -41,11 +41,11 @@ GameMenuLogic = LogicGameMenu(screen, all_sprites, mob_sprites, tube_hit_boxes, 
 
 # This section of the code instantiates the bird
 PlayerSprite = BirdClass(screen, all_sprites, bullets_group)  # instantiates the bird class
-player_group.add(PlayerSprite)
+player_group.add(PlayerSprite)  # Adds player sprite the player group
 
 # This section of the code instantiates the boss
-BossSprite = BossClass(screen, all_sprites, wall_group)
-dragon_group.add(BossSprite)
+BossSprite = BossClass(screen, all_sprites, wall_group)  # Instantiates the boss class
+dragon_group.add(BossSprite)  # Adds the boss sprite to the player group
 
 # This section of the code creates fonts that can be used later
 title_font = pygame.font.SysFont('Comic Sans MS', 110)  # Sets the font and the size of font
@@ -126,10 +126,10 @@ while running:
 
     if game_state == "GameMenu":  # If the game state is game menu
         GameMenuLogic.TextUpdate()  # Method to superimpose text over game
-        bullets_group.update(game_state)
-        dragon_group.update(game_live)
+        bullets_group.update(game_state)  # Updates the bullets
+        dragon_group.update(game_live)  # Updates the dragon (Enemies)
 
-    player_group.update(game_live)
+    player_group.update(game_live)  # Updates the player group
 
     Clock.tick(60)  # Sets the FPS/ Clock tick
     pygame.display.update()  # Updates the screen

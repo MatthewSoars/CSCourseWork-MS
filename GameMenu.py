@@ -33,10 +33,11 @@ class LogicGameMenu:
         self.GameOverScreen = 0  # Creates the game over screen class variable
         self.game_over_screen_init = False  # Sets the game over screen to false
 
-        self.crash_sound = pygame.mixer.Sound("Sounds/SoundEffects/hit.mp3")   # Sets the crash sound to the need audio
-        self.point_sound = pygame.mixer.Sound("Sounds/SoundEffects/point.mp3")  # Sets the point sound to the need audio
+        self.crash_sound = pygame.mixer.Sound("Sounds/SoundEffects/hit.mp3")   # Sets the crash sound to the needed audio
+        self.point_sound = pygame.mixer.Sound("Sounds/SoundEffects/point.mp3")  # Sets the point sound to the needed audio
+        self.explosion_sound = pygame.mixer.Sound("Sounds/SoundEffects/explosion.mp3")  # Sets the explosion sound
 
-        self.Distance_Traveled = 0
+        self.Distance_Traveled = 0  # Sets the initial distance travelled
 
     def refresh(self, game_state, player_sprite, mob_sprites):  # refresh method which is called to refresh the screen
         self.Distance_Traveled += 1
@@ -56,7 +57,7 @@ class LogicGameMenu:
                 hit_floor = pygame.sprite.spritecollide(player_sprite, self.FloorHitBoxGroup, False)  # If player and floor hit box collide
                 hit_bullet_wall = pygame.sprite.groupcollide(self.BulletGroup, self.WallGroup, True, True)  # If Player and Mob collide
                 hit_sprite_wall = pygame.sprite.spritecollide(player_sprite, self.WallGroup, False)
-                if hit_tube or hit_sprite_wall:  # If hit tube is True
+                if hit_tube:  # If hit tube is True
                     self.GameLive = False  # Set game live to False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
 
@@ -67,6 +68,13 @@ class LogicGameMenu:
                 if hit_floor:  # If the hit floor box is True
                     self.GameLive = False  # Sets the game live to False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
+
+                if hit_sprite_wall:  # If the sprite hits the wall
+                    self.GameLive = False
+                    pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
+
+                if hit_bullet_wall:  # If the bullet hits the wall
+                    pygame.mixed.Sound.play(self.explosion_sound)  # Plays the explosion sound
 
         elif not self.GameLive:  # If game live is False
             if not self.game_over_screen_init:  # If game over screen initialised is False

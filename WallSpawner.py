@@ -13,7 +13,7 @@ class WallLogic(pygame.sprite.Sprite):
         self.PosX = pos_x  # Sets the starting X position
         self.PosY = pos_y  # Sets the starting Y position
 
-        self.Height = random.randint(70, 200)
+        self.Height = random.randint(70, 200)  # Sets a random height for the wall
 
         self.Wall = pygame.Surface((50, self.Height))  # Creates the surface
         self.rect = self.Wall.get_rect()  # Sets the rect from the surface
