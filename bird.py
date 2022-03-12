@@ -1,16 +1,21 @@
 # Importing the required libraries for the code to work
-import pygame
+import pygame  # Imports the pygame library
+from bullet import BulletClass  # Imports the bullet class
 
 
 # Code for the class of the bird sprite
 class BirdClass(pygame.sprite.Sprite):
-    def __init__(self, screen):  # Method called when class is instantiated
+    def __init__(self, screen, all_sprite_group, bullet_group):  # Method called when class is instantiated
         pygame.sprite.Sprite.__init__(self)  # Inherits the parent Sprite class
         self.ScreenToAddTo = screen  # Gets the screen that is needed to be added to
         self.Jump_Height = 15  # Sets the jump height of the bird
         self.ScreenPosX = 150  # Sets the stating X position
         self.ScreenPosY = 0  # Sets the starting Y position
         self.Gravity = -1  # Sets the gravity that the bird abides
+
+        self.BulletGroup = bullet_group  # Sets the bullet group within the player class
+        self.SpriteGroup = all_sprite_group  # Sets the all_sprite_group within the player class
+        self.SpriteBullets = pygame.sprite.Group()  # Creates a tub_hit_box group
 
         self.Sprites = []  # Creates a list of sprites for animation
         self.Current_Animation_State = 0  # Sets the current animation state
@@ -62,7 +67,8 @@ class BirdClass(pygame.sprite.Sprite):
             pygame.mixer.Sound.play(self.fly_sound)  # Plays the fly sound
 
     def ShopScreen(self):  # Method used within the shop screen menu
-        self.ScreenToAddTo.blit(self.Sprites[self.Current_Animation_State], (575, 300))  # Sets the position used in the menu
+        self.ScreenToAddTo.blit(self.Sprites[self.Current_Animation_State], (635, 325))  # Sets the position used in the menu
+        self.Current_Animation_State = 0  # Sets the current animation state to zero
 
     def Fly(self):  # Method that is assigned to a key press which accelerates the sprite up
         self.Acceleration = - self.Jump_Height  # Sprite counteracts the full by using acceleration
@@ -72,3 +78,9 @@ class BirdClass(pygame.sprite.Sprite):
 
     def KillSprite(self):  # Method that kills the sprite
         self.kill()  # Kills the sprite
+
+    def Shoot(self):  # Method that shoots from the sprite
+        bullet_class = BulletClass(self.ScreenToAddTo, self.ScreenPosX, self.rect.y)  # Spawns the tube score box
+        self.SpriteGroup.add(bullet_class)  # Adds the sprites to the group
+        self.BulletGroup.add(bullet_class)  # Adds the sprites to the group
+        

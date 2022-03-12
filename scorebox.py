@@ -21,7 +21,7 @@ class TubeScoreLogic(pygame.sprite.Sprite):
         self.rect.x = self.PosX  # Sets the rect to the new position
 
         #  Draws the rect
-        pygame.draw.rect(self.ScreenToAddTo, (0, 100, 0), (self.rect.x, self.rect.y, self.rect.width, self.rect.height))
+        #  pygame.draw.rect(self.ScreenToAddTo, (0, 100, 0), (self.rect.x, self.rect.y, self.rect.width, self.rect.height))
 
         if self.rect.x < -400:  # If the position of x is less than -400
             self.kill()  # Kills the tube sprite

@@ -8,6 +8,7 @@ from SettingsMenu import LogicSettingsMenu  # Imports the class needed for the S
 from ShopMenu import LogicShopMenu  # Imports the class needed for ShopMenu
 from GameMenu import LogicGameMenu  # Imports the class needed for GameMenu
 from bird import BirdClass  # Imports the bird character class
+from boss import BossClass
 
 ScreenHeight = 1366  # Sets the screens height
 ScreenWidth = 768  # Sets the screens width
@@ -25,6 +26,10 @@ restart = False  # Sets restart to false
 all_sprites = pygame.sprite.Group()  # Creates an all sprites group
 mob_sprites = pygame.sprite.Group()  # Creates a mob sprite group
 tube_hit_boxes = pygame.sprite.Group()  # Creates a tub_hit_box group
+bullets_group = pygame.sprite.Group()  # Creates a tub_hit_box group
+dragon_group = pygame.sprite.Group()  # Creates a dragon group
+player_group = pygame.sprite.Group()  # Creates a player group
+wall_group = pygame.sprite.Group()  # Creates a wall group
 
 # Instantiates the screens for different states of the game
 BackgroundLogic = LogicBackground()  # Instantiates the background class
@@ -32,11 +37,15 @@ MainMenuLogic = LogicMainMenu(screen)  # Instantiates the Main menu class
 StatsMenuLogic = LogicStatsMenu(screen)  # Instantiates the Stats' menu class
 SettingsMenuLogic = LogicSettingsMenu(screen)  # Instantiates the Settings menu class
 ShopMenuLogic = LogicShopMenu(screen)  # Instantiates the Shop menu class
-GameMenuLogic = LogicGameMenu(screen, all_sprites, mob_sprites, tube_hit_boxes)  # Instantiates the Game menu class
+GameMenuLogic = LogicGameMenu(screen, all_sprites, mob_sprites, tube_hit_boxes, bullets_group, wall_group)  # Instantiates the Game menu class
 
 # This section of the code instantiates the bird
-PlayerSprite = BirdClass(screen)  # instantiates the bird class
-all_sprites.add(PlayerSprite)  # adds the bird sprite to the group
+PlayerSprite = BirdClass(screen, all_sprites, bullets_group)  # instantiates the bird class
+player_group.add(PlayerSprite)  # Adds player sprite the player group
+
+# This section of the code instantiates the boss
+BossSprite = BossClass(screen, all_sprites, wall_group)  # Instantiates the boss class
+dragon_group.add(BossSprite)  # Adds the boss sprite to the player group
 
 # This section of the code creates fonts that can be used later
 title_font = pygame.font.SysFont('Comic Sans MS', 110)  # Sets the font and the size of font
@@ -60,13 +69,15 @@ while running:
 
     elif game_state == "StatsMenu":  # If game state is StatsMenu
         var = running == StatsMenuLogic.refresh(mouse_position)  # Refreshes the Stats' menu class
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "SettingsMenu":  # If game state is SettingsMenu
         var = running == SettingsMenuLogic.refresh(mouse_position)  # Refreshes the Settings menu class
-        PlayerSprite.KillSprite()
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "ShopMenu":  # If game state is SettingsMenu
         var = running == ShopMenuLogic.refresh(mouse_position)  # Refreshes the Settings menu class
+        PlayerSprite.KillSprite()  # Kills the player sprite
 
     elif game_state == "GameMenu":  # If game state is GameMenu
         var = running == GameMenuLogic.refresh(game_state, PlayerSprite, mob_sprites)  # Refreshes the Game Menu class
@@ -78,6 +89,8 @@ while running:
         if event.type == pygame.KEYDOWN:  # Detects if a pygame key down event has been triggered
             if event.key == pygame.K_SPACE and game_state == "GameMenu":  # If space button has been pressed and in game
                 PlayerSprite.Fly()  # Call a variation of the sprite refresh for the shop screen
+            elif event.key == pygame.K_m and game_state == "GameMenu":  # If space button has been pressed and in game
+                PlayerSprite.Shoot()  # Call a variation of the sprite refresh for the shop screen
 
         # Next section is used to check if the game state is needed to be changed
         if event.type == pygame.MOUSEBUTTONDOWN:  # Detects if the mouse button has been pressed
@@ -86,22 +99,26 @@ while running:
             elif game_state == "StatsMenu":  # If the game state is StatsMenu
                 game_state = StatsMenuLogic.game_state_changer(
                     mouse_position)  # Checks if the game state needs changing
-            elif game_state == "SettingsMenu":  # If the game state is SettingsMenu
-                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
-                if game_state != "SettingsMenu":  # If game state is SettingsMenu
+                if game_state != "StatsMenu":  # If game state is Stats Menu
                     restart = True  # Sets restart to true to restart all the sprites
-            elif game_state == "ShopMenu":  # If the game state is SettingsMenu
+            elif game_state == "SettingsMenu":  # If the game state is Settings Menu
+                game_state = SettingsMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
+                if game_state != "SettingsMenu":  # If game state is Settings Menu
+                    restart = True  # Sets restart to true to restart all the sprites
+            elif game_state == "ShopMenu":  # If the game state is Shop Menu
                 game_state = ShopMenuLogic.game_state_changer(mouse_position)  # Checks if game state needs changing
+                if game_state != "ShopMenu":  # If game state is Shop Menu
+                    restart = True  # Sets restart to true to restart all the sprites
             elif game_state == "GameMenu":  # If the game state is game menu
                 game_state, restart = GameMenuLogic.game_state_change(mouse_position)  # Checks if game state needs changing
 
     # If restart is true
     if restart:
-        PlayerSprite = BirdClass(screen)  # Instantiate a new Player sprite
+        PlayerSprite = BirdClass(screen, all_sprites, bullets_group)  # Instantiate a new Player sprite
         all_sprites.add(PlayerSprite)  # Adds the new player sprite to the screen
         restart = False  # Sets restart to false
 
-    elif game_state == "ShopMenu":  # If the game state is "Shop Menu"
+    if game_state == "ShopMenu":  # If the game state is "Shop Menu"
         PlayerSprite.ShopScreen()  # Call a variation of the sprite refresh for the shop screen
 
     game_live = GameMenuLogic.GameLiveChecker()  # Checks to see if the game is live
@@ -109,6 +126,10 @@ while running:
 
     if game_state == "GameMenu":  # If the game state is game menu
         GameMenuLogic.TextUpdate()  # Method to superimpose text over game
+        bullets_group.update(game_state)  # Updates the bullets
+        dragon_group.update(game_live)  # Updates the dragon (Enemies)
+
+    player_group.update(game_live)  # Updates the player group
 
     Clock.tick(60)  # Sets the FPS/ Clock tick
     pygame.display.update()  # Updates the screen
