@@ -15,8 +15,8 @@ class LogicGameMenu:
         self.SpriteGroup = all_sprite_group  # Sets the sprite group within the class
         self.MobGroup = mob_group  # Sets the sprite group within the class
         self.TubeHitBoxGroup = tube_hit_box_group  # Sets the sprite group within the class
-        self.BulletGroup = bullet_group
-        self.WallGroup = wall_group
+        self.BulletGroup = bullet_group  # Sets the bullet group
+        self.WallGroup = wall_group  # Sets the wall group
 
         self.RandomGap = 100  # sets the initial gap size
         self.Gap = 0  # Sets another initial value for gap size
@@ -39,8 +39,10 @@ class LogicGameMenu:
 
         self.Distance_Traveled = 0  # Sets the initial distance travelled
 
+        self.death_text = "You died"  # Sets the default death text
+
     def refresh(self, game_state, player_sprite, mob_sprites):  # refresh method which is called to refresh the screen
-        self.Distance_Traveled += 1
+        self.Distance_Traveled += 1  # Increments distance traveled
 
         if self.GameLive:  # If the game is live
             if self.Gap >= self.RandomGap:  # If the Gap currently created is more than or equal to random gap size
@@ -58,6 +60,7 @@ class LogicGameMenu:
                 hit_bullet_wall = pygame.sprite.groupcollide(self.BulletGroup, self.WallGroup, True, True)  # If Player and Mob collide
                 hit_sprite_wall = pygame.sprite.spritecollide(player_sprite, self.WallGroup, False)
                 if hit_tube:  # If hit tube is True
+                    self.death_text = "Avoid the tube next time"  # Death text
                     self.GameLive = False  # Set game live to False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
 
@@ -66,15 +69,17 @@ class LogicGameMenu:
                     pygame.mixer.Sound.play(self.point_sound)  # Plays the point sound
 
                 if hit_floor:  # If the hit floor box is True
+                    self.death_text = "Don't fly too low next time"  # Death text
                     self.GameLive = False  # Sets the game live to False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
 
                 if hit_sprite_wall:  # If the sprite hits the wall
+                    self.death_text = "Avoid the wall next time"  # Death text
                     self.GameLive = False
                     pygame.mixer.Sound.play(self.crash_sound)  # Plays the crash sound
 
                 if hit_bullet_wall:  # If the bullet hits the wall
-                    pygame.mixed.Sound.play(self.explosion_sound)  # Plays the explosion sound
+                    pygame.mixer.Sound.play(self.explosion_sound)  # Plays the explosion sound
 
         elif not self.GameLive:  # If game live is False
             if not self.game_over_screen_init:  # If game over screen initialised is False
@@ -82,7 +87,7 @@ class LogicGameMenu:
                 self.game_over_screen_init = True  # Set game over screen initialised to True
 
             elif self.game_over_screen_init:  # If game over screen initialised is True
-                self.GameOverScreen.update(self.CurrentScore, self.Distance_Traveled)  # Calls the GameOverScreen update method
+                self.GameOverScreen.update(self.CurrentScore, self.Distance_Traveled, self.death_text)  # Calls the GameOverScreen update method
 
     def Tube_Spawn(self):  # Method to spawn the tube
         tube_gap_position = random.randint(-200, 200)  # Random gap position

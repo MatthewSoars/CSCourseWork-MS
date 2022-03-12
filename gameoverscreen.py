@@ -16,8 +16,6 @@ class GameOverScreenLogic:
         self.Score = "Score = " + str(score)  # Sets the score with the text
         self.High_Score = "High Score ="  # Sets an initial high score
 
-        self.DeathMSG = "Don't Fly Low Next Time"  # Sets the death MSG
-
         # This section of the code instantiates the buttons
         self.PlayAgainButton = Button(350, 450, 280, 80, "Play Again",
                                       self.ScreenToAddTo)  # Sets parameters for the exit button
@@ -25,13 +23,14 @@ class GameOverScreenLogic:
 
         # This section of the code creates fonts that can be used later
         game_over_font = pygame.font.SysFont('Comic Sans MS', 170)  # Sets the font and the size of font
-        death_msg_font = pygame.font.SysFont('Comic Sans MS', 70)  # Sets the font and the size of font
+        self.death_msg_font = pygame.font.SysFont('Comic Sans MS', 60)  # Sets the font and the size of font
         self.score_font = pygame.font.SysFont('Comic Sans MS', 60)  # Sets the font and the size of font
         self.game_over_text = game_over_font.render('Game Over', False, (0, 0, 0))  # Sets the parameters for the Game over text
-        self.death_msg_text = death_msg_font.render(self.DeathMSG, False, (0, 0, 0))  # Sets the parameters for the death msg
 
     # Method called to update the game over screen
-    def update(self, score, distance_traveled):
+    def update(self, score, distance_traveled, death_msg):
+        death_msg_text = self.death_msg_font.render(death_msg, False, (0, 0, 0))  # Sets the parameters for the death msg
+
         # Section of the code which relates to the handling of the updating of high score txt document
         txt_doc = shelve.open('scores.txt')  # Opens the score txt
         high_score = txt_doc['score']  # Score is read from the disk
@@ -55,7 +54,7 @@ class GameOverScreenLogic:
                          50)  # Draws Rect With Curved Edges
 
         self.ScreenToAddTo.blit(self.game_over_text, (265, 30))  # Displays the game over text to the screen
-        self.ScreenToAddTo.blit(self.death_msg_text, (290, 230))  # Displays the game over text to the screen
+        self.ScreenToAddTo.blit(death_msg_text, (330, 230))  # Displays the game over text to the screen
         self.ScreenToAddTo.blit(score_text, (350, 340))  # Displays the game over text to the screen
         self.ScreenToAddTo.blit(high_score_text, (700, 340))  # Displays the game over text to the screen
 

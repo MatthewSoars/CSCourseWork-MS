@@ -80,7 +80,7 @@ class BirdClass(pygame.sprite.Sprite):
         self.kill()  # Kills the sprite
 
     def Shoot(self):  # Method that shoots from the sprite
-        bullet_class = BulletClass(self.ScreenToAddTo, self.ScreenPosX, self.rect.y, True)  # Spawns the tube score box
+        bullet_class = BulletClass(self.ScreenToAddTo, self.ScreenPosX, self.rect.y)  # Spawns the tube score box
         self.SpriteGroup.add(bullet_class)  # Adds the sprites to the group
         self.BulletGroup.add(bullet_class)  # Adds the sprites to the group
         
