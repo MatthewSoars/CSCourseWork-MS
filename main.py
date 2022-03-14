@@ -8,7 +8,7 @@ from SettingsMenu import LogicSettingsMenu  # Imports the class needed for the S
 from ShopMenu import LogicShopMenu  # Imports the class needed for ShopMenu
 from GameMenu import LogicGameMenu  # Imports the class needed for GameMenu
 from bird import BirdClass  # Imports the bird character class
-from boss import BossClass
+from boss import BossClass  # Imports the boss class
 
 ScreenHeight = 1366  # Sets the screens height
 ScreenWidth = 768  # Sets the screens width

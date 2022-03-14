@@ -17,13 +17,13 @@ class WallLogic(pygame.sprite.Sprite):
 
         self.Wall = pygame.Surface((50, self.Height))  # Creates the surface
         self.rect = self.Wall.get_rect()  # Sets the rect from the surface
-        self.rect.width = 50
-        self.rect.height = self.Height
+        self.rect.width = 50  # Sets the width of the rect
+        self.rect.height = self.Height  # Sets the height of the rect
 
     def update(self, game_live):  # Method to update the tube sprite
         self.PosX = self.PosX + self.speed  # Moves the pos x depending on the speed
         self.rect.x = self.PosX  # Sets the rect pos x
-        self.rect.y = self.PosY
+        self.rect.y = self.PosY  # Sets the rect pos y
 
         # Draws the rect to the screen
         pygame.draw.rect(self.ScreenToAddTo, (255, 0, 0), (self.rect.x, self.PosY, self.rect.width, self.rect.height))
